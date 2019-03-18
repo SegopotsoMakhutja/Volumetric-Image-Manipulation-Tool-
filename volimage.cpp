@@ -144,28 +144,27 @@ void Volimage::extract(int sliceId, std::string output_prefix)
 */
 void Volimage::extractRow(int row, std::string output_prefix)
 {	
-	ofstream row_extract (output_prefix+".raw",ios::out | ios::binary);
-	int DEPTH = slices.size(); 
-	unsigned char **file = new unsigned char*[DEPTH];
-	//for(int i = 0; i<slices.size(); i++){
-	int i=0;
+	ofstream extract (output_prefix + ".raw",ios::out | ios::binary);
+	ofstream head(output_prefix + ".data");
+	
+	int i=0, k=0, sz=slices.size();
+	int arr[] = {width, sz, 1};
+	unsigned char **file = new unsigned char*[sz];
+
+	while(k<3)
+	{
+		head<< *(arr+k);
+		head<< " ";
+		k++;
+	}
+	head.close();
+
 	while (i<slices.size())
 	{
 		file[i] = new unsigned char[width];
 		file[i] = slices[i][row]; 
-		row_extract.write((char*)file[i],width);
+		extract.write((char*)file[i],width);
 		i++;
 	}
-	row_extract.close();
-	
-	ofstream row_header(output_prefix+".data");
-	int myarr[] = {width, DEPTH, 1};
-
-    for(int j = 0; j<3; j++)
-	{	
-		row_header<< *(myarr+j);
-		row_header<< " ";
-	}
-
-	row_header.close();
+	extract.close();
 }

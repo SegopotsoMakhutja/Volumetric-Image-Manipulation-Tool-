@@ -4,14 +4,14 @@
 using namespace MKHSEG001;
 using namespace std;
 
-// default const
+// default constructor
 Volimage::Volimage()
 {
     width = 0; height = 0;
     vector<unsigned char**> slices;
 }
 
-// decons
+// deconstructor
 Volimage::~Volimage()
 {
     for (int i = 0; i < slices.size(); i++)
