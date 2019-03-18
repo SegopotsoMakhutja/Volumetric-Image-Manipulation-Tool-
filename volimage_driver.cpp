@@ -1,18 +1,18 @@
-#include "volimage"
+#include "volimage.h"
 #include <iostream>
 
 using namespace MKHSEG001;
 using namespace std;
 
 // default const
-volimage::Volimage()
+Volimage::Volimage()
 {
     width = 0; height = 0;
     vector<unsigned char**> slices;
 }
 
 // decons
-volimage::~Volimage()
+Volimage::~Volimage()
 {
     for (int i = 0; i < slices.size(); i++)
     {   
@@ -28,7 +28,7 @@ volimage::~Volimage()
 int main(int argc, char* argv[])
 {
     int number = argc;
-    volimage images;
+    Volimage images;
     string imgName = string(argv[1]);
 
     if (number == 2)
@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
             break;
         }
 
-        case 6;
+        case 6:
         {
             if(string(argv[2])=="-d")
             {

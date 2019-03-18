@@ -3,21 +3,23 @@
  * methods defined in the h file
  */
 #include "volimage.h"
+#include <iostream>
 
 using namespace MKHSEG001;
+using namespace std;
 
 /**
  * populate the object with images in stack and
  * set member variables define in .cpp
  */
-bool volimage::readImages(std::string baseName)
+bool Volimage::readImages(std::string baseName)
 {
 	string fldr = baseName + "/" + baseName;
 	string filename = fldr + ".dat";
 	ifstream infile(filename.c_str());
 	if(!infile)
 	{
-		cerr << "File open failed." << endl;
+		cout << "File open failed." << endl;
 	}
 
 	string line;
@@ -62,7 +64,7 @@ bool volimage::readImages(std::string baseName)
  * number of bytes uses to store image data bytes
  * and pointers (ignore vector<> container, dims etc)
  */
-int volimage::volImageSize(void)
+int Volimage::volImageSize(void)
 {
 	unsigned int size = width * height * slices.size();
 	return size;
@@ -71,7 +73,7 @@ int volimage::volImageSize(void)
 /**
 * number of images stored in a volume
 */
-int volimage::numOfImages(void)
+int Volimage::numOfImages(void)
 {
 	int num = slices.size();
 	return num;
@@ -80,9 +82,9 @@ int volimage::numOfImages(void)
 /**
 * compute difference map and write out;
 */
-void volimage::diffmap(int sliceI, int sliceJ, std::string output_prefix)
+void Volimage::diffmap(int sliceI, int sliceJ, std::string output_prefix)
 {
-	ofstream difference_image (Filename+".raw",ios::out | ios::binary);
+	ofstream difference_image (output_prefix+".raw",ios::out | ios::binary);
 	unsigned char** data = new unsigned char*[height];
 	int r=0;
 	while(r<height)
@@ -98,7 +100,7 @@ void volimage::diffmap(int sliceI, int sliceJ, std::string output_prefix)
 
 		difference_image.close();
 
-		ofstream diff(Filename+".data");
+		ofstream diff(output_prefix+".data");
 
 		int val[] = {width, height, 1};
 		//int j = 0;
@@ -111,77 +113,60 @@ void volimage::diffmap(int sliceI, int sliceJ, std::string output_prefix)
 		}
 		cout<<"Diffmap complete"<<endl;
 		diff.close();
-	}
 }
 
 /**
 * extract slice sliceId and write to output
 */
-void volimage::extract(int sliceId, std::string output_prefix)
+void Volimage::extract(int sliceId, std::string output_prefix)
 {
-	ofstream image_extract (Filename+".raw",ios::out | ios::binary);
-
+	ofstream image_extract (output_prefix+".raw",ios::out | ios::binary);
 	unsigned char **sliced = slices[sliceId];
-	
 	for(int i = 0; i<height;i++)
 	{
 		image_extract.write((char*)sliced[i],width);
 	}
 
 	image_extract.close();
-	ofstream header(Filename+".data");
+	ofstream header(output_prefix+".data");
+
 	int myarray[] = {width, height, 1};
-    
-	for(int j = 0; j<3; j++)
+    for(int j = 0; j<3; j++)
 	{	
 		header<< *(myarray+j);
 		header<< " ";
 	}
-
 	header.close();
 
-
-	ofstream outfile(output_prefix);
-	for(int i=0; i<nu)
-	{
-		for()
-		{
-			for()
-			{
-				unsigned ans = (unsigned char)(abs(float)slices[sliceI][j][k])
-				outfile << ans;
-			}
-		}
-	}
 }
 
 /**
 * extract row across all slices and write to output
 */
-void volimage::extractRow(int row, std::string output_prefix)
+void Volimage::extractRow(int row, std::string output_prefix)
 {	
-		ofstream row_extract (Filename+".raw",ios::out | ios::binary);
-		int DEPTH = slices.size(); 
-		unsigned char **file = new unsigned char*[DEPTH];
-		//for(int i = 0; i<slices.size(); i++){
-			int i=0;
-		while (i<slices.size()){
-			file[i] = new unsigned char[width];
-			file[i] = slices[i][row]; 
-			row_extract.write((char*)file[i],width);
-			i++;
-		}
-
-		row_extract.close();
-
-		ofstream row_header(Filename+".data");
-
-		int myarr[] = {width, DEPTH, 1};
-                for(int j = 0; j<3; j++){	
-			row_header<< *(myarr+j);
-			row_header<< " ";
-		}
-
-		row_header.close();
+	ofstream row_extract (output_prefix+".raw",ios::out | ios::binary);
+	int DEPTH = slices.size(); 
+	unsigned char **file = new unsigned char*[DEPTH];
+	//for(int i = 0; i<slices.size(); i++){
+	int i=0;
+	while (i<slices.size())
+	{
+		file[i] = new unsigned char[width];
+		file[i] = slices[i][row]; 
+		row_extract.write((char*)file[i],width);
+		i++;
 	}
+	row_extract.close();
+	
+	ofstream row_header(output_prefix+".data");
+	int myarr[] = {width, DEPTH, 1};
+
+    for(int j = 0; j<3; j++)
+	{	
+		row_header<< *(myarr+j);
+		row_header<< " ";
+	}
+
+	row_header.close();
 }

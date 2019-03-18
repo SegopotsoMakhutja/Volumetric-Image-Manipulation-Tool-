@@ -24,7 +24,7 @@ namespace MKHSEG001{
             int volImageSize(void);
             void diffmap(int sliceI, int sliceJ, std::string output_prefix);
             void extract(int sliceId, std::string output_prefix);
-            void extractRow(int row, std::string output_prefix);}
+            void extractRow(int row, std::string output_prefix);
     };
 }
 
