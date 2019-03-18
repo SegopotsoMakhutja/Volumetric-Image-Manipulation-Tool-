@@ -37,18 +37,12 @@ int main(int argc, char* argv[])
         images.readImages(imgName);
         int numImg = images.numOfImages();
         int numBytes = images.volImageSize();
-        cout << "Number of Images: " << numImg << endl;
-        cout << "Number of bytes: " << numBytes << endl;
+        cout << "the number of images read = " << numImg << endl;
+        cout << "Number of bytes =  " << numBytes << endl;
     }
 
     switch(number)
     {
-        default:
-        {
-            cout << "incorrect input format" << endl; 
-            break;
-        }
-
         case 5:
         {
             if(string(argv[2])=="-x")
@@ -98,6 +92,15 @@ int main(int argc, char* argv[])
                 images.readImages(imgName);
                 images.diffmap(x,y,string(argv[5]));
             }
+            break;
+        }
+
+        default:
+        {
+            cout << "\ninvoke operations as follows. " << "\n" 
+            << "volimage <imageBase> [-d i j output_file_name] [-x i output_file_name] \n" << endl;
+            cout << "the operation for -g, needs to be run separately." << endl;
+             
             break;
         }
     }

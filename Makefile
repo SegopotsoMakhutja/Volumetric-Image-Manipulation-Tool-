@@ -25,4 +25,7 @@ $(PRODUCT): $(OBJFILES)
 -include $(DEPFILES)
 
 clean:
-	@rm -f *.o *.d $(PRODUCT) 
+	@rm -f *.o *.d $(PRODUCT)
+
+run:
+	./$(PRODUCT) MRI 

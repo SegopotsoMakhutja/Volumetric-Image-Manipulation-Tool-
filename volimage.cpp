@@ -15,7 +15,7 @@ using namespace std;
 bool Volimage::readImages(std::string baseName)
 {
 	string fldr = baseName + "/" + baseName;
-	string filename = fldr + ".dat";
+	string filename = fldr + ".data";
 	ifstream infile(filename.c_str());
 	if(!infile)
 	{
@@ -56,8 +56,7 @@ bool Volimage::readImages(std::string baseName)
 			slices.push_back(images);
 			myimage.close();
 			}
-		cout<<endl;
-			cout<<"Read Image was succesfull"<<endl;
+	cout<<"\nReading images succesful"<<endl;
 }
 
 /**
