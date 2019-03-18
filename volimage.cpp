@@ -139,6 +139,20 @@ void volimage::extract(int sliceId, std::string output_prefix)
 	}
 
 	header.close();
+
+
+	ofstream outfile(output_prefix);
+	for(int i=0; i<nu)
+	{
+		for()
+		{
+			for()
+			{
+				unsigned ans = (unsigned char)(abs(float)slices[sliceI][j][k])
+				outfile << ans;
+			}
+		}
+	}
 }
 
 /**

@@ -25,7 +25,7 @@ volimage::~Volimage()
     } 
 }
 
-int main()
+int main(int argc, char* argv[])
 {
     int number = argc;
     volimage images;
